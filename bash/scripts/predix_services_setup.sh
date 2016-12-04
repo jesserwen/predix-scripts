@@ -142,7 +142,7 @@ ASSET_TAG_NOSPACE=${ASSET_TAG// /_}
 
 assetPostBody=$(printf "[{\"uri\": \"%s\", \"tag\": \"%s\", \"description\": \"%s\"}]%s" "/$ASSET_TYPE/$ASSET_TAG_NOSPACE" "$ASSET_TAG_NOSPACE" "$ASSET_DESCRIPTION")
 
-__append_new_head_log "Creating Asset with tags" "$predixServicesLogDir"
+__append_new_head_log "Creating Asset with tags" "-" "$predixServicesLogDir"
 echo "Asset Post Body : $assetPostBody"
 echo "Asset URL : $assetURI"
 createAsset "$uaaURL" "$assetURI" "$ASSET_ZONE_ID" "$assetPostBody"
