@@ -34,7 +34,7 @@ PREDIX_SERVICES_TEXTFILE="$buildBasicAppLogDir/predix-services-summary.txt"
 # ********************************** MAIN **********************************
 __validate_num_arguments 1 $# "\"build-basic-app.sh\" expected in order: String of Predix Application used to get VCAP configurations" "$buildBasicAppLogDir"
 
-__append_new_head_log "Build & Deploy Front-end Application" "#" "$buildBasicAppLogDir"
+__append_new_head_log "Build & Deploy Application" "#" "$buildBasicAppLogDir"
 
 # Get the UAA enviorment variables (VCAPS)
 
