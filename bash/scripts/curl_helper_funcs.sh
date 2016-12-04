@@ -86,7 +86,9 @@ function __createUaaClient
     __append_new_line_log "Got UAA admin token" "$CURL_HELPER_LOG_PATH"
     __append_new_line_log "Making CURL GET request to create UAA Client ID \"$UAA_CLIENTID_GENERIC\"..." "$CURL_HELPER_LOG_PATH"
 
-    responseCurl=`curl "$1/oauth/clients" -H "Pragma: no-cache" -H "Content-Type: application/json" -H "Cache-Control: no-cache" -H "Authorization: $adminUaaToken" --data-binary '{"client_id":"'$UAA_CLIENTID_GENERIC'","client_secret":"'$UAA_CLIENTID_GENERIC_SECRET'","scope":["acs.policies.read","acs.policies.write","acs.attributes.read","'timeseries.zones.$2.user'","'timeseries.zones.$2.query'","'timeseries.zones.$2.ingest'","'$3.zones.$4.user'","uaa.none","openid"],"authorized_grant_types":["client_credentials","authorization_code","refresh_token","password"],"authorities":["openid","uaa.none","uaa.resource","'timeseries.zones.$2.user'","'timeseries.zones.$2.query'","'timeseries.zones.$2.ingest'","'$3.zones.$4.user'"],"autoapprove":["openid"]}'`
+    curlCmd="curl \"$1/oauth/clients\" -H \"Pragma: no-cache\" -H \"Content-Type: application/json\" -H \"Cache-Control: no-cache\" -H \"Authorization: $adminUaaToken\" --data-binary '{\"client_id\":\"'$UAA_CLIENTID_GENERIC'\",\"client_secret\":\"'$UAA_CLIENTID_GENERIC_SECRET'\",\"scope\":[\"acs.policies.read\",\"acs.policies.write\",\"acs.attributes.read\",\"'timeseries.zones.$2.user'\",\"'timeseries.zones.$2.query'\",\"'timeseries.zones.$2.ingest'\",\"'$3.zones.$4.user'\",\"uaa.none\",\"openid\"],\"authorized_grant_types\":[\"client_credentials\",\"authorization_code\",\"refresh_token\",\"password\"],\"authorities\":[\"openid\",\"uaa.none\",\"uaa.resource\",\"'timeseries.zones.$2.user'\",\"'timeseries.zones.$2.query'\",\"'timeseries.zones.$2.ingest'\",\"'$3.zones.$4.user'\"],\"autoapprove\":[\"openid\"]}'\""
+    echo $curlCmd
+    responseCurl=`$curlCmd`
     
     if [ ${#responseCurl} -lt 3 ]; then
       __error_exit "Failed to make request to create UAA User to \"$1\"" "$CURL_HELPER_LOG_PATH"
@@ -128,8 +130,10 @@ function __addUaaUser
     __append_new_line_log "Got UAA admin token" "$CURL_HELPER_LOG_PATH"
     __append_new_line_log "Making CURL GET request to create UAA user \"$UAA_USER_NAME\"..." "$CURL_HELPER_LOG_PATH"
 
-    responseCurl=`curl "$1/Users" -H "Pragma: no-cache" -H "Content-Type: application/json" -H "Cache-Control: no-cache" -H "Authorization: $adminUaaToken" --data-binary '{"userName":"'$UAA_USER_NAME'","password":"'$UAA_USER_PASSWORD'","emails":[{"value":"'$UAA_USER_EMAIL'"}]}'`
-
+    curlCmd="curl \"$1/Users\" -H \"Pragma: no-cache\" -H \"Content-Type: application/json\" -H \"Cache-Control: no-cache\" -H \"Authorization: $adminUaaToken\" --data-binary '{\"userName\":\"'$UAA_USER_NAME'\",\"password\":\"'$UAA_USER_PASSWORD'\",\"emails\":[{\"value\":\"'$UAA_USER_EMAIL'\"}]}'"
+    echo $curlCmd
+    responseCurl=`$curlCmd`
+    
     if [ ${#responseCurl} -lt 3 ]; then
       __error_exit "Failed to make request to create UAA User to \"$1\"" "$CURL_HELPER_LOG_PATH"
     else
